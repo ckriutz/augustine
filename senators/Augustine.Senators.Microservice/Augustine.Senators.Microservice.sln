@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Augustine.Senators.WebApi", "Augustine.Senators.WebApi\Augustine.Senators.WebApi.csproj", "{7354E6D0-767B-4A76-B424-B531696CD037}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7354E6D0-767B-4A76-B424-B531696CD037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7354E6D0-767B-4A76-B424-B531696CD037}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7354E6D0-767B-4A76-B424-B531696CD037}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7354E6D0-767B-4A76-B424-B531696CD037}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A1E070AD-D6FE-433E-AA56-A12899F8A573}
+	EndGlobalSection
+EndGlobal
