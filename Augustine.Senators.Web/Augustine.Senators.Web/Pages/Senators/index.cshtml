@@ -1,0 +1,40 @@
+﻿@page
+@model Augustine.Senators.Web.Pages.Senators.indexModel
+@{
+    ViewData["Title"] = "index";
+}
+
+<div id="senatorMain">
+    <div class="text-center">
+        <h1 class="display-4">Senators</h1>
+        <p>There are currently {{senators.length}} senators.</p>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Party</th>
+                <th scope="col">District</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Email Address</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody v-for="senator in senators">
+            <tr>
+                <th scope="row">{{ senator.Id }}</th>
+                <td>{{ senator.Name }}</td>
+                <td>{{ senator.Party }}</td>
+                <td>{{ senator.District }}</td>
+                <td>{{ senator.PhoneNumber }}</td>
+                <td>{{ senator.EmailAddress }}</td>
+                <td><a asp-page="/Senators/Edit/">Edit</a></td>
+                <td><a asp-page="/Senators/Edit/">Delete</a></td>
+            </tr>
+            <tr>
+        </tbody>
+    </table>
+</div>
+
