@@ -27,5 +27,13 @@ var senatorApp = new Vue({
     data: {
         message: 'Hello Vue!',
         senators: getSenators()
+    },
+    methods: {
+        doDelete: function (id) {
+            // So with this line, we take the button-click event from the page, and grab the Id that it passed in.
+            // With that Id, we can insert the name, and set the button.
+            $('#delete-modal-body').html("<p>Are you sure you want to delete " + this.senators[id].Name + "?");
+            $('#deleteModal').modal();
+        }
     }
 })

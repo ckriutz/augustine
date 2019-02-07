@@ -1,5 +1,5 @@
 ﻿@page
-@model Augustine.Senators.Web.Pages.Senators.indexModel
+@model Augustine.Senators.Web.Pages.Senators.IndexModel
 @{
     ViewData["Title"] = "index";
 }
@@ -30,11 +30,31 @@
                 <td>{{ senator.District }}</td>
                 <td>{{ senator.PhoneNumber }}</td>
                 <td>{{ senator.EmailAddress }}</td>
-                <td><a asp-page="/Senators/Edit/">Edit</a></td>
-                <td><a asp-page="/Senators/Edit/">Delete</a></td>
+                <td><a href="">Edit</a></td>
+                <td><button class="button btn" v-on:click="doDelete(senator.Id)"><i class="fas fa-user-times"></i></button></td>
             </tr>
             <tr>
         </tbody>
     </table>
+</div>
+
+<div id="deleteModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Senator</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="delete-modal-body" class="modal-body">
+                <!-- content goes in here from javascript. -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger">Yes, Destroy</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
+            </div>
+        </div>
+    </div>
 </div>
 
