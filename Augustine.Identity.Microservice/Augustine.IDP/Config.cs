@@ -53,15 +53,32 @@ namespace Augustine.IDP
                     {
                         "https://localhost:8888/signin-oidc"
                     },
+                    PostLogoutRedirectUris = new List<string>()
+                    {
+                        "https://localhost:8888/signin-callback-oidc"
+                    },
                     AllowedScopes =
                     {
-                        IdentityServerConstants.StandardScopes.OpenId
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Address,
+                        "roles",
+                        "senatorsapi"
+              
                     },
                     ClientSecrets =
                     {
                         new Secret("secret".Sha256())
                     }
                 }
+            };
+        }
+
+        public static IEnumerable<ApiResource> GetApiResources()
+        {
+            return new List<ApiResource>
+            {
+                new ApiResource("senatorsapi","Senators API")
             };
         }
 

@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Augustine.Senators.WebApi.Contexts;
+using Augustine.Senators.WebApi.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Augustine.Senators.WebApi.Contexts;
-using Augustine.Senators.WebApi.Entities;
 
 namespace Augustine.Senators.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SenatorsController : ControllerBase
     {
         private readonly SenatorsContext _context;
