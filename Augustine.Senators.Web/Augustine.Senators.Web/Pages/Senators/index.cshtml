@@ -3,40 +3,41 @@
 @{
     ViewData["Title"] = "index";
 }
-
 <div id="senatorMain">
-    <div class="text-center">
-        <h1 class="display-4">Senators</h1>
-        <p>There are currently {{senators.length}} senators.</p>
+    <div>
+        <div class="text-center">
+            <h1 class="display-4">Senators</h1>
+            <p>There are currently {{senators.length}} senators.</p>
+        </div>
+        <button class="button btn" style="margin:.5em;" v-on:click="showAdd()">Add New</button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Party</th>
+                    <th scope="col">District</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Email Address</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody v-for="senator in senators">
+                <tr>
+                    <th scope="row">{{ senator.Id }}</th>
+                    <td>{{ senator.Name }}</td>
+                    <td>{{ senator.Party }}</td>
+                    <td>{{ senator.District }}</td>
+                    <td>{{ senator.PhoneNumber }}</td>
+                    <td>{{ senator.EmailAddress }}</td>
+                    <td><button class="button btn" v-on:click="showEdit(senator)"><i class="fas fa-user-edit"></i></button></td>
+                    <td><button class="button btn" v-on:click="showDelete(senator.Id)"><i class="fas fa-user-times"></i></button></td>
+                </tr>
+                <tr>
+            </tbody>
+        </table>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Party</th>
-                <th scope="col">District</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Email Address</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody v-for="senator in senators">
-            <tr>
-                <th scope="row">{{ senator.Id }}</th>
-                <td>{{ senator.Name }}</td>
-                <td>{{ senator.Party }}</td>
-                <td>{{ senator.District }}</td>
-                <td>{{ senator.PhoneNumber }}</td>
-                <td>{{ senator.EmailAddress }}</td>
-                <td><a href="">Edit</a></td>
-                <td><button class="button btn" v-on:click="doDelete(senator.Id)"><i class="fas fa-user-times"></i></button></td>
-            </tr>
-            <tr>
-        </tbody>
-    </table>
-</div>
 
 <div id="deleteModal" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -51,10 +52,91 @@
                 <!-- content goes in here from javascript. -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">Yes, Destroy</button>
+                <button id="btnDestroy" type="button" class="btn btn-danger">Yes, Destroy</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
             </div>
         </div>
     </div>
 </div>
 
+<div id="editModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Senator</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="edit-modal-body" class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="senatorName">Senator Name</label>
+                        <input id="senatorName" class="form-control" v-model="SenatorToEdit.Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="senatorEmail">Email Address</label>
+                        <input id="senatorEmail" class="form-control" v-model="SenatorToEdit.EmailAddress" />
+                    </div>
+                    <div class="form-group">
+                        <label for="senatorPhone">Phone Number</label>
+                        <input id="senatorPhone" class="form-control" v-model="SenatorToEdit.PhoneNumber" />
+                    </div>
+                    <div class="form-group">
+                        <label for="senatorParty">Party</label>
+                        <input id="senatorParty" class="form-control" v-model="SenatorToEdit.Party" />
+                    </div>
+                    <div class="form-group">
+                        <label for="senatorDistrict">District</label>
+                        <input id="senatorDistrict" class="form-control" v-model="SenatorToEdit.District" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnUpdate" type="button" class="btn btn-info">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div id="addModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Senator</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="add-modal-body" class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="senatorName">Senator Name</label>
+                        <input id="senatorName" class="form-control" v-model="SenatorToAdd.Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="senatorEmail">Email Address</label>
+                        <input id="senatorEmail" class="form-control" v-model="SenatorToAdd.EmailAddress" />
+                    </div>
+                    <div class="form-group">
+                        <label for="senatorPhone">Phone Number</label>
+                        <input id="senatorPhone" class="form-control" v-model="SenatorToAdd.PhoneNumber" />
+                    </div>
+                    <div class="form-group">
+                        <label for="senatorParty">Party</label>
+                        <input id="senatorParty" class="form-control" v-model="SenatorToAdd.Party" />
+                    </div>
+                    <div class="form-group">
+                        <label for="senatorDistrict">District</label>
+                        <input id="senatorDistrict" class="form-control" v-model="SenatorToAdd.District" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSave" type="button" class="btn btn-info">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
