@@ -31,8 +31,7 @@ namespace Augustine.Senators.WebApi
                     options.ApiName = "senatorsapi";
                 });
 
-            services.AddDbContext<SenatorsContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("SenatorsDatabase")));
+            services.AddDbContext<SenatorsContext>(options => options.UseInMemoryDatabase("SenatorsDatabase"));
 
 
         }
