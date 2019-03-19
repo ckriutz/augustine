@@ -3,6 +3,7 @@
 
 // This function gets the senators from the webpai microservice.
 async function getAllSenators() {
+    console.log("getting all senators...");
     var senators = [];
     let getSenators = new Promise((resolve, reject) => {
         $.ajax({
@@ -48,13 +49,13 @@ async function addSenator(senator) {
 $(async function () {
 
     // This gets the initial list of senators from the microservice.
-    var allSenators = await getAllSenators();
+    //var allSenators = await getAllSenators();
 
     // This is for the Main Index page of Augustine.
     var indexApp = new Vue({
         el: '#index',
         data: {
-            senators: allSenators
+            senators: ''
         }
     });
 
@@ -62,18 +63,22 @@ $(async function () {
     var senatorApp = new Vue({
         el: '#senatorMain',
         data: {
-            senators: allSenators,
+            senators: '',
             SenatorToEdit: '',
             SenatorToAdd:
-                {
-                    Name: '',
-                    District: '',
-                    Party: '',
-                    PhoneNumber: '',
-                    EmailAddress: ''
-                }
+            {
+                Name: '',
+                District: '',
+                Party: '',
+                PhoneNumber: '',
+                EmailAddress: ''
+            }
         },
         methods: {
+            init: async function () {
+                var allSenators = await getAllSenators();
+                this.senators = allSenators;
+            },
             showDelete: function (id) {
                 // So with this line, we take the button-click event from the page, and grab the Id that it passed in.
                 // With that Id, we can insert the name, and set the button.
@@ -102,11 +107,14 @@ $(async function () {
             },
             doAdd: async function () {
                 // This function will add the senator to the service.
-                this.senators.push(this.SenatorToAdd);
-                addSenator(this.SenatorToAdd);
-                this.SenatorToAdd = '';
-                this.senators = await getAllSenators();
+                await addSenator(this.SenatorToAdd);
+
+                // Now, lets update the list from the database.
+                await this.init();
             }
+        },
+        mounted() {
+            this.init();
         }
     });
 
