@@ -22,7 +22,7 @@ namespace Augustine.Senators.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddCors();
             services.AddAuthentication(
                 IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(options =>
@@ -45,6 +45,9 @@ namespace Augustine.Senators.WebApi
             }
 
             app.UseAuthentication();
+
+            // NOTE: The following Cors statement opens everything up fairly wide.
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
 
         }

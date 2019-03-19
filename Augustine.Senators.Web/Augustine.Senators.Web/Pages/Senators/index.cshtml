@@ -23,120 +23,121 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody v-for="senator in senators">
+            <tbody v-for="sen in senators">
                 <tr>
-                    <th scope="row">{{ senator.Id }}</th>
-                    <td>{{ senator.Name }}</td>
-                    <td>{{ senator.Party }}</td>
-                    <td>{{ senator.District }}</td>
-                    <td>{{ senator.PhoneNumber }}</td>
-                    <td>{{ senator.EmailAddress }}</td>
-                    <td><button class="button btn" v-on:click="showEdit(senator)"><i class="fas fa-user-edit"></i></button></td>
-                    <td><button class="button btn" v-on:click="showDelete(senator.Id)"><i class="fas fa-user-times"></i></button></td>
+                    <th scope="row">{{ sen.id }}</th>
+                    <td>{{ sen.name }}</td>
+                    <td>{{ sen.party }}</td>
+                    <td>{{ sen.district }}</td>
+                    <td>{{ sen.phoneNumber }}</td>
+                    <td>{{ sen.emailAddress }}</td>
+                    <td><button class="button btn" v-on:click="showEdit(sen)"><i class="fas fa-user-edit"></i></button></td>
+                    <td><button class="button btn" v-on:click="showDelete(sen.id)"><i class="fas fa-user-times"></i></button></td>
                 </tr>
                 <tr>
             </tbody>
         </table>
     </div>
 
-<div id="deleteModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Delete Senator</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div id="delete-modal-body" class="modal-body">
-                <!-- content goes in here from javascript. -->
-            </div>
-            <div class="modal-footer">
-                <button id="btnDestroy" type="button" class="btn btn-danger">Yes, Destroy</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
+    <div id="deleteModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Senator</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="delete-modal-body" class="modal-body">
+                    <!-- content goes in here from javascript. -->
+                </div>
+                <div class="modal-footer">
+                    <button id="btnDestroy" type="button" class="btn btn-danger">Yes, Destroy</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div id="editModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Senator</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div id="edit-modal-body" class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="senatorName">Senator Name</label>
-                        <input id="senatorName" class="form-control" v-model="SenatorToEdit.Name" />
-                    </div>
-                    <div class="form-group">
-                        <label for="senatorEmail">Email Address</label>
-                        <input id="senatorEmail" class="form-control" v-model="SenatorToEdit.EmailAddress" />
-                    </div>
-                    <div class="form-group">
-                        <label for="senatorPhone">Phone Number</label>
-                        <input id="senatorPhone" class="form-control" v-model="SenatorToEdit.PhoneNumber" />
-                    </div>
-                    <div class="form-group">
-                        <label for="senatorParty">Party</label>
-                        <input id="senatorParty" class="form-control" v-model="SenatorToEdit.Party" />
-                    </div>
-                    <div class="form-group">
-                        <label for="senatorDistrict">District</label>
-                        <input id="senatorDistrict" class="form-control" v-model="SenatorToEdit.District" />
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button id="btnUpdate" type="button" class="btn btn-info">Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+    <div id="editModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Senator</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="edit-modal-body" class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="senatorName">Senator Name</label>
+                            <input id="senatorName" class="form-control" v-model="SenatorToEdit.Name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="senatorEmail">Email Address</label>
+                            <input id="senatorEmail" class="form-control" v-model="SenatorToEdit.EmailAddress" />
+                        </div>
+                        <div class="form-group">
+                            <label for="senatorPhone">Phone Number</label>
+                            <input id="senatorPhone" class="form-control" v-model="SenatorToEdit.PhoneNumber" />
+                        </div>
+                        <div class="form-group">
+                            <label for="senatorParty">Party</label>
+                            <input id="senatorParty" class="form-control" v-model="SenatorToEdit.Party" />
+                        </div>
+                        <div class="form-group">
+                            <label for="senatorDistrict">District</label>
+                            <input id="senatorDistrict" class="form-control" v-model="SenatorToEdit.District" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnUpdate" type="button" class="btn btn-info">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
-    </div>
+
     <div id="addModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add New Senator</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div id="add-modal-body" class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="senatorName">Senator Name</label>
-                        <input id="senatorName" class="form-control" v-model="SenatorToAdd.Name" />
-                    </div>
-                    <div class="form-group">
-                        <label for="senatorEmail">Email Address</label>
-                        <input id="senatorEmail" class="form-control" v-model="SenatorToAdd.EmailAddress" />
-                    </div>
-                    <div class="form-group">
-                        <label for="senatorPhone">Phone Number</label>
-                        <input id="senatorPhone" class="form-control" v-model="SenatorToAdd.PhoneNumber" />
-                    </div>
-                    <div class="form-group">
-                        <label for="senatorParty">Party</label>
-                        <input id="senatorParty" class="form-control" v-model="SenatorToAdd.Party" />
-                    </div>
-                    <div class="form-group">
-                        <label for="senatorDistrict">District</label>
-                        <input id="senatorDistrict" class="form-control" v-model="SenatorToAdd.District" />
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button id="btnSave" type="button" class="btn btn-info">Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Senator</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="add-modal-body" class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="senatorName">Senator Name</label>
+                            <input id="senatorName" class="form-control" v-model="SenatorToAdd.Name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="senatorEmail">Email Address</label>
+                            <input id="senatorEmail" class="form-control" v-model="SenatorToAdd.EmailAddress" />
+                        </div>
+                        <div class="form-group">
+                            <label for="senatorPhone">Phone Number</label>
+                            <input id="senatorPhone" class="form-control" v-model="SenatorToAdd.PhoneNumber" />
+                        </div>
+                        <div class="form-group">
+                            <label for="senatorParty">Party</label>
+                            <input id="senatorParty" class="form-control" v-model="SenatorToAdd.Party" />
+                        </div>
+                        <div class="form-group">
+                            <label for="senatorDistrict">District</label>
+                            <input id="senatorDistrict" class="form-control" v-model="SenatorToAdd.District" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnSave" type="button" class="btn btn-info">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
