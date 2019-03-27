@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Augustine.Senators.WebApi
 {
@@ -33,6 +34,11 @@ namespace Augustine.Senators.WebApi
 
             services.AddDbContext<SenatorsContext>(options => options.UseInMemoryDatabase("SenatorsDatabase"));
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Senators API", Version = "v1" });
+            });
+
 
         }
 
@@ -48,6 +54,17 @@ namespace Augustine.Senators.WebApi
 
             // NOTE: The following Cors statement opens everything up fairly wide.
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Senators API V1");
+                c.RoutePrefix = string.Empty;
+            });
+
             app.UseMvc();
 
         }
