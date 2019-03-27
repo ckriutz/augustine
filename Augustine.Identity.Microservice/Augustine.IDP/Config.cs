@@ -51,11 +51,11 @@ namespace Augustine.IDP
                     AllowedGrantTypes = GrantTypes.Hybrid,
                     RedirectUris = new List<string>()
                     {
-                        "https://localhost:8888/signin-oidc"
+                        "https://localhost:44365/signin-oidc"
                     },
                     PostLogoutRedirectUris = new List<string>()
                     {
-                        "https://localhost:8888/signin-callback-oidc"
+                        "https://localhost:44365/signout-callback-oidc"
                     },
                     AllowedScopes =
                     {
@@ -69,6 +69,33 @@ namespace Augustine.IDP
                     ClientSecrets =
                     {
                         new Secret("secret".Sha256())
+                    }
+                },
+                new Client
+                {
+                    ClientName = "Augustine.Senator.WebForms",
+                    ClientId = "augustinesenatorclientwebforms",
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    RedirectUris = new List<string>()
+                    {
+                        "https://localhost:44383/signin-oidc"
+                    },
+                    PostLogoutRedirectUris = new List<string>()
+                    {
+                        "https://localhost:44383/signout-callback-oidc"
+                    },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Address,
+                        "roles",
+                        "senatorsapi"
+
+                    },
+                    ClientSecrets =
+                    {
+                        new Secret("secretwebforms".Sha256())
                     }
                 }
             };
