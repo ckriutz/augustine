@@ -11,7 +11,8 @@ namespace Augustine.Senators.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [ApiConventionType(typeof(DefaultApiConventions))]
+    [Authorize]
     public class SenatorsController : ControllerBase
     {
         private readonly SenatorsContext _context;
