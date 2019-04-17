@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,6 +33,31 @@ namespace Augustine.Senators.Web
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Cookies";
+                options.DefaultChallengeScheme = "oidc";
+            }).AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.SignInScheme = "Cookies";
+                    options.Authority = "https://localhost:44335/";
+                    options.ClientId = "augustinesenatorclient";
+                    options.ResponseType = "code id_token";
+                    options.Scope.Add("openid");
+                    options.Scope.Add("profile");
+                    options.Scope.Add("address");
+                    options.Scope.Add("roles");
+                    options.Scope.Add("senatorsapi"); 
+                    options.SaveTokens = true;
+                    options.ClientSecret = "secret";
+                    options.GetClaimsFromUserInfoEndpoint = true;
+                    options.ClaimActions.Remove("amr");
+                    options.ClaimActions.DeleteClaim("sid");
+                    options.ClaimActions.DeleteClaim("idp");
+                    options.ClaimActions.MapUniqueJsonKey("role", "role");
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +74,8 @@ namespace Augustine.Senators.Web
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseMvc();
         }

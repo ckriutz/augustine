@@ -48,14 +48,24 @@ namespace Augustine.IDP
                 {
                     ClientName = "Augustine.Senator.Web",
                     ClientId = "augustinesenatorclient",
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    ClientUri = "https://localhost:44365",
                     AllowedGrantTypes = GrantTypes.Hybrid,
+                    AllowAccessTokensViaBrowser = false,
+                    RequireConsent = false,
+                    AllowOfflineAccess = true,
+                    AlwaysIncludeUserClaimsInIdToken = true,
+
                     RedirectUris = new List<string>()
                     {
-                        "https://localhost:8888/signin-oidc"
+                        "https://localhost:44365/signin-oidc",
                     },
                     PostLogoutRedirectUris = new List<string>()
                     {
-                        "https://localhost:8888/signin-callback-oidc"
+                        "https://localhost:44365/signout-callback-oidc",
                     },
                     AllowedScopes =
                     {
@@ -64,11 +74,55 @@ namespace Augustine.IDP
                         IdentityServerConstants.StandardScopes.Address,
                         "roles",
                         "senatorsapi"
-              
+
+                    },
+                    AccessTokenLifetime = 60*60*2, // 2 hours
+                    IdentityTokenLifetime= 60*60*2 // 2 hours
+                },
+                new Client
+                {
+                    ClientName = "Augustine.Senator.WebApi.Swagger.UI",
+                    ClientId = "augustinesenatorwebapiswaggerui",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+                    RedirectUris = new List<string>()
+                    {
+                        "https://localhost:44329/oauth2-redirect.html"
+                    },
+                    PostLogoutRedirectUris = new List<string>()
+                    {
+                        "https://localhost:44329/"
+                    },
+                    AllowedScopes =
+                    {
+                        "senatorsapi"
+                    }
+                },
+                new Client
+                {
+                    ClientName = "Augustine.Senator.WebForms",
+                    ClientId = "augustinesenatorclientwebforms",
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    RedirectUris = new List<string>()
+                    {
+                        "https://localhost:44383/signin-oidc"
+                    },
+                    PostLogoutRedirectUris = new List<string>()
+                    {
+                        "https://localhost:44383/signout-callback-oidc"
+                    },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Address,
+                        "roles",
+                        "senatorsapi"
+
                     },
                     ClientSecrets =
                     {
-                        new Secret("secret".Sha256())
+                        new Secret("secretwebforms".Sha256())
                     }
                 }
             };
@@ -88,6 +142,11 @@ namespace Augustine.IDP
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Address(),
+                new IdentityResource(
+                    "roles",
+                    "Your Role(s)",
+                    new List<string>() {"role"})
             };
         }
     }

@@ -9,8 +9,11 @@ async function getAllSenators() {
         $.ajax({
             async: true,
             type: "GET",
-            url: "http://52.188.220.229/api/Senators",
-            contentType: "application/json; charset=utf-8"
+            url: "https://localhost:44329/api/Senators",
+            contentType: "application/json; charset=utf-8",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'BEARER ');
+            }
         }).done(function (data) {
             senators = data;
             resolve(senators);
@@ -30,7 +33,7 @@ async function addSenator(senator) {
         $.ajax({
             aysnc: true,
             type: "POST",
-            url: "http://52.188.220.229/api/Senators",
+            url: "https://localhost:44329/api/Senators",
             data: JSON.stringify(senator),
             contentType: "application/json; charset=utf-8"
         }).done(function () {

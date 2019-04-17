@@ -1,11 +1,16 @@
 ﻿using Augustine.Senators.WebApi.Contexts;
 using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace Augustine.Senators.WebApi
 {
@@ -22,18 +27,53 @@ namespace Augustine.Senators.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddCors();
-            services.AddAuthentication(
-                IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                .AddIdentityServerAuthentication(options =>
-                {
-                    options.Authority = "https://localhost:44335/";
-                    options.ApiName = "senatorsapi";
-                });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                    .SetIsOriginAllowed((host) => true)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
+            //services.AddAuthentication(
+            //    IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            //    .AddIdentityServerAuthentication(options =>
+            //    {
+            //        options.Authority = Configuration.GetValue<string>("IdentityUrl")};
+            //        options.ApiName = "senatorsapi";
+            //    });
+
+            ConfigureAuthService(services, Configuration.GetValue<string>("IdentityUrl"));
 
             services.AddDbContext<SenatorsContext>(options => options.UseInMemoryDatabase("SenatorsDatabase"));
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Senators API", Version = "v1" });
+                //c.AddSecurityDefinition("Bearer", new ApiKeyScheme { In = "header", Description = "Please enter JWT with Bearer into field", Name = "Authorization", Type = "apiKey" });
+                c.AddSecurityDefinition("oauth2", new OAuth2Scheme
+                {
+                    Type = "oauth2",
+                    Flow = "implicit",
+                    AuthorizationUrl = $"{Configuration.GetValue<string>("IdentityUrl")}connect/authorize",
+                    TokenUrl = $"{Configuration.GetValue<string>("IdentityUrl")}connect/token",
+                    Scopes = new Dictionary<string, string>()
+                    {
+                        { "senatorsapi", "Senators API" }
+                    }
+                });
 
+                c.OperationFilter<AuthorizeCheckOperationFilter>();
+
+                //c.AddSecurityRequirement(
+                //    new Dictionary<string,
+                //    IEnumerable<string>>
+                //    {
+                //        { "Bearer", Enumerable.Empty<string>() },
+                //    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,8 +88,39 @@ namespace Augustine.Senators.WebApi
 
             // NOTE: The following Cors statement opens everything up fairly wide.
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Senators API V1");
+                c.RoutePrefix = string.Empty;
+                c.OAuthClientId("augustinesenatorwebapiswaggerui");
+                c.OAuthAppName("Senators Swagger UI");
+            });
+
             app.UseMvc();
 
+        }
+
+        private void ConfigureAuthService(IServiceCollection services, string identityurl)
+        {
+            // prevent from mapping "sub" claim to nameidentifier.
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = identityurl;
+                options.RequireHttpsMetadata = false;
+                options.Audience = "senatorsapi";
+            });
         }
     }
 }
