@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Augustine.Senators.Web.Hubs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -82,6 +78,7 @@ namespace Augustine.Senators.Web
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ChatHub>("/chatHub");
+                routes.MapHub<SenatorsHub>("/senatorsHub");
             });
 
             app.UseMvc();
