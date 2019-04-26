@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "index";
 }
+<link href="~/lib/toastr.js/toastr.css" rel="stylesheet" />
 <div id="senatorMain">
     <div>
         <div class="text-center">
@@ -144,6 +145,8 @@
 
 @section Scripts
 {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="~/lib/toastr.js/toastr.min.js"></script>
     <script src="~/lib/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/senators.js"></script>
 }

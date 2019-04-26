@@ -3,7 +3,26 @@
 var connection = new signalR.HubConnectionBuilder().withUrl("/senatorsHub").build();
 
 connection.on("DisplayViewNotification", function () {
-    alert('Someone is viewing senators');
+    // Display an info toast with no title
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-full-width",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+    toastr.warning('Someone else is viewing senators');
 });
 
 connection.start()
