@@ -46,6 +46,42 @@ namespace Augustine.IDP
             {
                 new Client
                 {
+                    ClientName = "Augustine.Senator.Web.Vuejs",
+                    ClientId = "augustinesenatorvuejsclient",
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    ClientUri = "https://localhost:44365",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+                    AllowOfflineAccess = true,
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    AllowedCorsOrigins = { "https://localhost:44365" },
+
+                    RedirectUris = new List<string>()
+                    {
+                        "https://localhost:44365/callback",
+                    },
+                    PostLogoutRedirectUris = new List<string>()
+                    {
+                        "https://localhost:44365/",
+                    },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Address,
+                        "roles",
+                        "senatorsapi"
+
+                    },
+                    AccessTokenLifetime = 60*60*2, // 2 hours
+                    IdentityTokenLifetime= 60*60*2 // 2 hours
+                },
+                new Client
+                {
                     ClientName = "Augustine.Senator.Web",
                     ClientId = "augustinesenatorclient",
                     ClientSecrets =

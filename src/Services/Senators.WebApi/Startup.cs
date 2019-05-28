@@ -101,7 +101,12 @@ namespace Augustine.Senators.WebApi
                 c.OAuthAppName("Senators Swagger UI");
             });
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "CatchAll", action = "Index"});
+            });
 
         }
 
@@ -115,12 +120,19 @@ namespace Augustine.Senators.WebApi
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            }).AddJwtBearer(options =>
+            }).AddIdentityServerAuthentication(options =>
             {
                 options.Authority = identityurl;
-                options.RequireHttpsMetadata = false;
-                options.Audience = "senatorsapi";
+                options.RequireHttpsMetadata = true;
+                options.ApiName = "senatorsapi";
             });
+                
+            //.AddJwtBearer(options =>
+            //{
+            //    options.Authority = identityurl;
+            //    options.RequireHttpsMetadata = false;
+            //    options.Audience = "senatorsapi";
+            //});
         }
     }
 }
