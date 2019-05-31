@@ -1,12 +1,6 @@
 <template>
   <div class="about">
     <h1>Senators Page</h1>
-    <!-- <div v-for="(senator,index) in senators" :key="index">
-      <p>
-        {{senator.name}}
-        {{senator.district}}
-      </p>
-    </div> -->
     <button @click="callSecureApi">Call API</button>
     <table>
         <thead>
