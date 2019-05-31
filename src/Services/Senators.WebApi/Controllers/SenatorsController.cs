@@ -3,6 +3,7 @@ using Augustine.Senators.WebApi.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,7 +27,38 @@ namespace Augustine.Senators.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Senator>>> GetSenators()
         {
+            if (_context.Senators.Count() == 0)
+            {
+                var senators = new List<Senator>
+                {
+                    new Senator
+                    {
+                        Name = "Kevin Kraus",
+                        District = "Douglas County",
+                        Party = "Independent",
+                        PhoneNumber = "303-555-4444",
+                        EmailAddress = "kkraus@microsoft.com",
+                        TermStartDate = DateTime.Now.AddMonths(-6),
+                        TermEndDate = DateTime.Now.AddMonths(6)
+                    },
+                    new Senator
+                    {
+                        Name = "Casey Kriutzfield",
+                        District = "Augustine",
+                        Party = "Independent",
+                        PhoneNumber = "702-555-4444",
+                        EmailAddress = "ckriutz@microsoft.com",
+                        TermStartDate = DateTime.Now.AddMonths(-6),
+                        TermEndDate = DateTime.Now.AddMonths(6)
+                    }
+                };
+
+                await _context.Senators.AddRangeAsync(senators);
+                await _context.SaveChangesAsync();
+            }
+
             return await _context.Senators.ToListAsync();
+
         }
 
         // GET: api/Senators/5

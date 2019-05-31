@@ -1,5 +1,5 @@
 {
-  "name": "senators.spa",
+  "name": "vue-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,10 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "axios": "^0.19.0",
+    "babel-polyfill": "^6.26.0",
     "core-js": "^2.6.5",
+    "oidc-client": "^1.7.1",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3"
   },

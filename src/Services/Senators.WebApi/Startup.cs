@@ -37,14 +37,6 @@ namespace Augustine.Senators.WebApi
                     .AllowCredentials());
             });
 
-            //services.AddAuthentication(
-            //    IdentityServerAuthenticationDefaults.AuthenticationScheme)
-            //    .AddIdentityServerAuthentication(options =>
-            //    {
-            //        options.Authority = Configuration.GetValue<string>("IdentityUrl")};
-            //        options.ApiName = "senatorsapi";
-            //    });
-
             ConfigureAuthService(services, Configuration.GetValue<string>("IdentityUrl"));
 
             services.AddDbContext<SenatorsContext>(options => options.UseInMemoryDatabase("SenatorsDatabase"));
@@ -125,14 +117,7 @@ namespace Augustine.Senators.WebApi
                 options.Authority = identityurl;
                 options.RequireHttpsMetadata = true;
                 options.ApiName = "senatorsapi";
-            });
-                
-            //.AddJwtBearer(options =>
-            //{
-            //    options.Authority = identityurl;
-            //    options.RequireHttpsMetadata = false;
-            //    options.Audience = "senatorsapi";
-            //});
+            });                
         }
     }
 }

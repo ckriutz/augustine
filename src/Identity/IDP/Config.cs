@@ -1,11 +1,8 @@
 ﻿using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Augustine.IDP
 {
@@ -46,28 +43,22 @@ namespace Augustine.IDP
             {
                 new Client
                 {
-                    ClientName = "Augustine.Senator.Web.Vuejs",
-                    ClientId = "augustinesenatorvuejsclient",
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    ClientUri = "https://localhost:44365",
+                    ClientName = "Augustine.Senators.SPA",
+                    ClientId = "augustinesenatorspa",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
-                    RequireConsent = false,
-                    AllowOfflineAccess = true,
-                    AlwaysIncludeUserClaimsInIdToken = true,
-                    AllowedCorsOrigins = { "https://localhost:44365" },
 
                     RedirectUris = new List<string>()
                     {
-                        "https://localhost:44365/callback",
+                        "https://localhost:44387/callback",
+                        "http://localhost:8080/callback"
                     },
                     PostLogoutRedirectUris = new List<string>()
                     {
-                        "https://localhost:44365/",
+                        "https://localhost:44387/",
+                        "http://localhost:8080"
                     },
+                    AllowedCorsOrigins = { "https://localhost:44387", "http://localhost:8080" },
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
@@ -76,10 +67,9 @@ namespace Augustine.IDP
                         "roles",
                         "senatorsapi"
 
-                    },
-                    AccessTokenLifetime = 60*60*2, // 2 hours
-                    IdentityTokenLifetime= 60*60*2 // 2 hours
+                    }
                 },
+
                 new Client
                 {
                     ClientName = "Augustine.Senator.Web",
