@@ -11,6 +11,6 @@ var mgr = new Oidc.UserManager({
 })
 
 Oidc.Log.logger = console;
-Oidc.Log.level = Oidc.Log.DEBUG;
+Oidc.Log.level = Oidc.Log.INFO;
 
 export default mgr;

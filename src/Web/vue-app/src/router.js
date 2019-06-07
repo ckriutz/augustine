@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Callback from './views/Callback.vue'
 
-Vue.use(Router)
+Vue.use(Router);
 
 let router = new Router({
   mode: 'history',
@@ -17,7 +17,9 @@ let router = new Router({
     {
       path: '/about',
       name: 'about',
-      meta: { requiresAuth: true },
+      meta: { 
+        requiresAuth: true 
+      },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -29,10 +31,12 @@ let router = new Router({
       component: Callback
     }
   ]
-})
+});
+
+export default router;
 
 router.beforeEach(async (to, from, next) => {
-  let app = router.app.$data || {isAuthenticated: false};
+  let app = router.app.$data || {isAuthenticated: false} ;
   if (app.isAuthenticated) {
     //already signed in, we can navigate anywhere
     next()
@@ -47,5 +51,3 @@ router.beforeEach(async (to, from, next) => {
     next()
   }
 });
-
-export default router;
